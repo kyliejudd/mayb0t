@@ -43,10 +43,10 @@ provider:
 
 # you can define service wide environment variables here
   environment:
-    CONSUMER_KEY: ${ssm:/twitter/consumerKey}
-    CONSUMER_SECRET: ${ssm:/twitter/consumerSecret}
-    ACCESS_KEY: ${ssm:/twitter/accessKey}
-    ACCESS_SECRET: ${ssm:/twitter/accessSecret}
+    CONSUMER_KEY: ${ssm:/twitter/consumerKey~true}
+    CONSUMER_SECRET: ${ssm:/twitter/consumerSecret~true}
+    ACCESS_KEY: ${ssm:/twitter/accessKey~true}
+    ACCESS_SECRET: ${ssm:/twitter/accessSecret~true}
 # you can add packaging information here
 #package:
 #  include:
@@ -60,11 +60,11 @@ functions:
   tweet_top_10_countries:
     handler: main.tweet_top_10_countries
     events:
-      - schedule: rate(10 minutes)
+      - schedule: rate(60 minutes)
   tweet_top_consituency:
     handler: main.tweet_top_consituency
     events:
-      - schedule: rate(20 minutes)
+      - schedule: rate(60 minutes)
 
 plugins:
   - serverless-python-requirements
