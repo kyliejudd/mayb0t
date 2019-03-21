@@ -2,9 +2,11 @@
 
 Just messing about with json returned from the petitions site. 
 
-Mayb0t is pretty straight forward connect do your fav petition and get the json https://petition.parliament.uk/petitions/241584.json 
+Mayb0t is pretty straight forward connect to your fav petition and get the json https://petition.parliament.uk/petitions/241584.json 
+
 Then sort the two dictionaries and tweet them. 
-this one runs in aws lambda hence the serverless config.
+
+This runs in aws lambda hence the serverless config.
 
 ### create your aws ssm secure parameters to hold twitter stuff
 
@@ -29,3 +31,6 @@ pip install -r requirements.txt
 edit your serverless as desired. 
 and deploy 
 `serverless deploy --profile personal`
+
+### todo 
+fooking petitions site keeps going down might need to handle that better.
