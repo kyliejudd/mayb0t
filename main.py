@@ -55,13 +55,13 @@ def get_top_constituency():
     json = get_json(site).json()
     totals_by_constit = json['data']['attributes']['signatures_by_constituency']
     sorted_totals_by_constit = sorted(totals_by_constit, key=lambda i: i['signature_count'])
-    top10_constit = sorted(sorted_totals_by_constit[-5:], reverse=True)
+    top10_constit = sorted_totals_by_constit[-5:]
+    sorted_top10 = sorted(top10_constit, key=lambda i: i['signature_count'], reverse=True)
     top10_constit_tweet = "Top votes by constituency - https://petition.parliament.uk/petitions/241584 \n \n"
 
-    for constit in top10_constit:
+    for constit in sorted_top10:
         top10_constit_tweet += '{}: {}\n'.format(constit['name'], constit['signature_count'])
     top10_constit_tweet += '#RevokeA50Now #RevokeArt50'
-
     return top10_constit_tweet
 
 def tweet_top_consituency(event, context):
@@ -70,4 +70,3 @@ def tweet_top_consituency(event, context):
     except tweepy.TweepError as e:
         print(e)
         exit(1)
-
