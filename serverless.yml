@@ -60,11 +60,11 @@ functions:
   tweet_top_10_countries:
     handler: main.tweet_top_10_countries
     events:
-      - schedule: rate(60 minutes)
+      - schedule: rate(180 minutes)
   tweet_top_consituency:
     handler: main.tweet_top_consituency
     events:
-      - schedule: rate(60 minutes)
+      - schedule: rate(180 minutes)
 
 plugins:
   - serverless-python-requirements
