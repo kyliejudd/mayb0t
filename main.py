@@ -16,17 +16,14 @@ api = tweepy.API(auth)
 
 site = "https://petition.parliament.uk/petitions/241584.json"
 
-def get_json(url):
-    try:
-        return requests.get(url)
-    except requests.exceptions.HTTPError as e:
-        print('whoops try again')
-        print(e)
-        exit(1)
+try:
+    json = requests.get(site).json()
+except requests.exceptions.HTTPError as e:
+    print(e)
+    exit(1)
+
 
 def get_top_countries():
-
-    json = get_json(site).json()
     total_signatures = json['data']['attributes']['signature_count']
     count_by_country = (json['data']['attributes']['signatures_by_country'])
     # sort by votes
@@ -41,18 +38,11 @@ def get_top_countries():
 
     for country in top10:
         top_tweet += ('{}: {}\n').format(country["name"], country["signature_count"])
-    top_tweet += '#RevokeA50Now #RevokeArt50'
+    top_tweet += '#PutItToThePeople #PeopleVoteMarch'
     return top_tweet
 
-def tweet_top_10_countries(event, context):
-    try:
-        return api.update_status(get_top_countries())
-    except tweepy.TweepError as e:
-        print(e)
-        exit(1)
 
 def get_top_constituency():
-    json = get_json(site).json()
     totals_by_constit = json['data']['attributes']['signatures_by_constituency']
     sorted_totals_by_constit = sorted(totals_by_constit, key=lambda i: i['signature_count'])
     top10_constit = sorted_totals_by_constit[-5:]
@@ -61,12 +51,14 @@ def get_top_constituency():
 
     for constit in sorted_top10:
         top10_constit_tweet += '{}: {}\n'.format(constit['name'], constit['signature_count'])
-    top10_constit_tweet += '#RevokeA50Now #RevokeArt50'
+    top10_constit_tweet += '#PutItToThePeople #PeopleVoteMarch'
     return top10_constit_tweet
 
-def tweet_top_consituency(event, context):
+def tweet(event, context):
     try:
-        return api.update_status(get_top_constituency())
+        api.update_status(get_top_countries())
+        time.sleep(1)
+        api.update_status(get_top_constituency())
     except tweepy.TweepError as e:
         print(e)
         exit(1)
